@@ -13,39 +13,27 @@ import Paragraph from '@editorjs/paragraph';
 import Warning from '@editorjs/warning';
 import { useMutation } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-// @ts-ignore
-import Table from '@editorjs/table';
-// @ts-ignore
-import Checklist from '@editorjs/checklist';
 import { toast } from 'sonner';
 import { FILE } from '../../dashboard/_components/FileList';
 
 const rawDocument={
-  "time" : 1550476186479,
-  "blocks" : [{
-      data:{
-          text:'Document Name',
-          level:2
-      },
-      id:"123",
-      type:'header'
-  },
-  {
-      data:{
-          text:'Powered By Suhaib King',
-          level:2
-      },
-      id:"123",
-      type:'paragraph'
-  },
-  {
-      data:{
-          level:4
-      },
-      id:"12345",
-      type:'header'
-  }],
-  "version" : "2.8.1"
+    "time" : 1550476186479,
+    "blocks" : [{
+        data:{
+            text:'Document Name',
+            level:2
+        },
+        id:"123",
+        type:'header'
+    },
+    {
+        data:{
+            level:4
+        },
+        id:"1234",
+        type:'header'
+    }],
+    "version" : "2.8.1"
 }
 function Editor({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fileData:FILE}) {
     const ref=useRef<EditorJS>();
@@ -65,40 +53,35 @@ function Editor({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fi
             /**
              * Id of Element that should contain Editor instance
              */
-            const initEditor = () => {
-              const editor = new EditorJS({
-                  tools: {
-                      header: Header,
-                      list: {
-                          class: List,
-                          inlineToolbar: true,
-                          config: {
-                              defaultStyle: 'unordered'
-                          }
-                      },
-                      checklist: {
-                          class: Checklist,
-                          inlineToolbar: true,
-                      },
-                      embed: Embed,
-                      table: {
-                          class: Table,
-                          inlineToolbar: true,
-                          config: {
-                              rows: 2,
-                              cols: 3,
-                          },
-                      },
-                      paragraph: {
-                          class: Paragraph,
-                          inlineToolbar: true,
-                      },
+
+            tools:{
+                header: {
+                    class: Header,
+                    shortcut: 'CMD+SHIFT+H',
+                    config:{
+                        placeholder:'Enter a Header'
+                    }
                   },
-                  holder: 'editorjs',
-                  data:fileData?JSON.parse(fileData.document):rawDocument
-              });
-              ref.current=editor;
-          };
+                  list: {
+                    class: List,
+                    inlineToolbar: true,
+                    config: {
+                      defaultStyle: 'unordered'
+                    }
+                  },
+                  checklist: {
+                    class: Checklist,
+                    inlineToolbar: true,
+                  },
+                  paragraph: Paragraph,
+                  warning: Warning,
+            },
+           
+            holder: 'editorjs',
+            data:fileData?.document?JSON.parse(fileData.document):rawDocument
+          });
+          ref.current=editor;
+    }
 
     const onSaveDocument=()=>{
       if(ref.current)
@@ -110,10 +93,10 @@ function Editor({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fi
             document:JSON.stringify(outputData)
           }).then(resp=>{
             
-              toast('Document Updated!😉')
+              toast('Document Updated!')
             
           },(e)=>{
-            toast("Not Now I am being still developed !😉!")
+            toast("Server Error!")
           })
         }).catch((error) => {
           console.log('Saving failed: ', error)
