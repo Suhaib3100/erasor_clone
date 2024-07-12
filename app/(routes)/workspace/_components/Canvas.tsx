@@ -36,18 +36,11 @@ function Canvas({onSaveTrigger,fileId,fileData}:{onSaveTrigger:any,fileId:any,fi
         }
     }}
     >
-             <MainMenu>
+        <MainMenu>
             <MainMenu.DefaultItems.ClearCanvas/>
-            <MainMenu.DefaultItems.Export/>
             <MainMenu.DefaultItems.SaveAsImage/>
-            <MainMenu.DefaultItems.LoadScene/>
-            <MainMenu.DefaultItems.SaveToActiveFile/>
-            <MainMenu.DefaultItems.ToggleTheme/>
-            <MainMenu.DefaultItems.ChangeCanvasBackground/> 
-            <MainMenu.ItemCustom.name/>
-                <MainMenu.DefaultItems.Help/>
+            <MainMenu.DefaultItems.ChangeCanvasBackground/>
         </MainMenu>
-
         <WelcomeScreen>
             <WelcomeScreen.Hints.MenuHint/>
             <WelcomeScreen.Hints.MenuHint/>
